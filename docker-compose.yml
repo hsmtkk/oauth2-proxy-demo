@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  oauth2-proxy:
+    image: quay.io/oauth2-proxy/oauth2-proxy:v6.1.1
+    environment:
+      OAUTH2_PROXY_CLIENT_ID: b61dd147a74a976f6952
+      OAUTH2_PROXY_CLIENT_SECRET: 2eed666aea2ac3ef6ea262c6ec408eabbe39f1af
+      OAUTH2_PROXY_COOKIE_SECRET: 0123456789abcdef
+      OAUTH2_PROXY_EMAIL_DOMAINS: "*"
+      OAUTH2_PROXY_HTTPS_ADDRESS: :8443
+      OAUTH2_PROXY_PASS_ACCESS_TOKEN: "true"
+      OAUTH2_PROXY_PROVIDER: github
+      OAUTH2_PROXY_TLS_CERT_FILE: /etc/oauth2-proxy/cert.pem
+      OAUTH2_PROXY_TLS_KEY_FILE: /etc/oauth2-proxy/key.pem
+      OAUTH2_PROXY_UPSTREAMS: http://web:8080
+    volumes:
+      - ./cert.pem:/etc/oauth2-proxy/cert.pem:ro
+      - ./key.pem:/etc/oauth2-proxy/key.pem:ro
+    ports:
+      - 8443:8443
+  web:
+    image: github.com/hsmtkk/oauth2-proxy-demo
